@@ -10,37 +10,38 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    EditText uname,pwd;
-    Button login;
-
+    EditText editTextUserName,editTextPassword;
+    Button buttonLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        uname=(EditText) findViewById(R.id.uname);
-        pwd=(EditText) findViewById(R.id.pwd);
-        login=(Button) findViewById(R.id.btn);
-
-        login.setOnClickListener(this);
-
-
+        editTextUserName=(EditText) findViewById(R.id.editTextUserName);
+        editTextPassword=(EditText) findViewById(R.id.editTextPassword);
+        buttonLogin=(Button) findViewById(R.id.buttonLogin);
+        buttonLogin.setOnClickListener(this);
     }
-
     @Override
     public void onClick(View v) {
-        Validate(uname.getText().toString(),pwd.getText().toString());
-
-
+        String userName = editTextUserName.getText().toString();
+        String userPassword = editTextPassword.getText().toString();
+        if (userName.isEmpty()) {
+            editTextUserName.setError("Field cannot be empty");
+        } else if (userPassword.isEmpty()) {
+            editTextPassword.setError("Field cannot be empty");
+        } else {
+            validateLogin(userName, userPassword);
+        }
     }
-    public void Validate(String uname,String pwd){
-        if(uname.equals("admin") && pwd.equals("1234")){
-            Intent intent=new Intent(this,SuccessActivity.class);
+    private void validateLogin(String userName, String userPassword){
+        if (userName.equals("admin") && userPassword.equals("1234")) {
+            Intent intent = new Intent(this, SuccessActivity.class);
             startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Failed Attempt!", Toast.LENGTH_LONG).show();
         }
-        else{
-            Toast.makeText(getApplicationContext(),"Failed Attempt!",Toast.LENGTH_LONG).show();
-        }
-
     }
+
 }
+
+
